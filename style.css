@@ -1,0 +1,141 @@
+:root {
+    --green-white: #dff0d8;
+    --green-light: #5cb85c;
+    --green-medium: #449d44;
+    --green-dark: #3c763d;
+    --green-black: #243824;
+
+    --blue-light: #428bca;
+    --blue-medium: #3071a9;
+    --blue-dark: #3c4a8a;
+    --blue-black: #2b3665;
+
+    --purple-dark: #4d3d76;
+
+    --gray-light: #f9f9f9;
+    --gray-medium: #e6e6e6;
+
+    --gray-dark: #ddd;
+    --gray-dark1: #aaa;
+    --gray-darkest: #777;
+
+    --red-medium: #d9534f;
+
+    --yellow-lightest: #fcf8e3;
+    --yellow-lighter: #ecbf7f;
+    --yellow-light: #f0ad4e;
+    --yellow-medium: #f0ad4e;
+    --yellow-dark: #c18637;
+
+    --speed-fast-progress-bar: .6s;
+    --speed-slow-progress-bar: 1.5s;
+    --width-prorgess-bar: 400px;
+    --width-header-btn-prorgess-bar: 25px;
+
+    --box-shadow: var(--blue-dark)
+}
+.common-progress-bar-wrapper {
+    position: absolute;
+    width: var(--width-prorgess-bar)!important;
+    bottom: 52px;
+    right: 2px;
+    z-index: 9999;
+}
+
+.common-progress-bar {
+    position: relative;
+    width: var(--width-prorgess-bar)!important;
+    height: 66px!important;
+    background-color: white;
+    margin-bottom: 6px;
+    padding: 10px;
+    min-height: 30px;
+    box-shadow: 0 0 2px 2px var(--box-shadow);
+    transition: opacity var(--speed-slow-progress-bar) ease,
+    width var(--speed-fast-progress-bar) ease,
+    height var(--speed-fast-progress-bar) ease,
+    box-shadow var(--speed-fast-progress-bar) ease;
+}
+.common-progress-bar.done {
+    box-shadow: 0 0 2px 2px var(--green-medium);
+}
+.common-progress-bar .popover .popover-title {
+    font-weight: bold;
+}
+.common-progress-bar.done .popover .popover-title .clarification {
+    display: none;
+}
+.common-progress-bar .popover .popover-title .clarification {
+    font-weight: normal;
+}
+.common-progress-bar .draggable-area {
+    width: 100%;
+    height: 20px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: grab;
+    z-index: 1;
+}
+.common-progress-bar.mini-size {
+    height: 56px!important;
+}
+.common-progress-bar.mini-size,
+.common-progress-bar.mini-size .draggable-area{
+    width: 80px!important;
+}
+.common-progress-bar .bnt-header-right {
+    width: var(--width-header-btn-prorgess-bar);
+    background-color: inherit;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    opacity: .5;
+}
+.common-progress-bar .bnt-header-right:hover {
+    background-color: var(--gray-light);
+    opacity: 1;
+}
+.common-progress-bar .bnt-header-right.minimize {
+    right: 25px;
+    padding-bottom: 0;
+}
+.common-progress-bar .bnt-header-right.close {
+    right: 0;
+    font-size: 19px;
+}
+.common-progress-bar .bnt-header-right.close:hover {
+    color: var(--red-medium);
+}
+.common-progress-bar .title {
+    margin-bottom: 5px;
+    height: 20px;
+    overflow: hidden;
+    width: calc(var(--width-prorgess-bar) - var(--width-header-btn-prorgess-bar) * 2);
+
+    transition: height var(--speed-fast-progress-bar) ease,
+    opacity var(--speed-fast-progress-bar) ease;
+}
+.common-progress-bar.mini-size .title {
+    opacity: 0;
+    height: 8px;
+}
+.common-progress-bar .progress {
+    margin-bottom: 0;
+}
+.common-progress-bar .progress .progress-bar {
+    transition: width var(--speed-fast-progress-bar) ease,
+    background-color var(--speed-fast-progress-bar) ease;
+}
+.common-progress-bar .progress .progress-bar.bg-primary {
+    background-color: var(--blue-medium);
+}
+.common-progress-bar .progress .progress-bar.bg-success {
+    background-color: var(--green-medium);
+}
+
+@media (max-width: 420px) {
+    :root {
+        --width-prorgess-bar: 300px;
+    }
+}
