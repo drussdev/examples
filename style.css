@@ -120,19 +120,6 @@
     opacity: 0;
     height: 8px;
 }
-.common-progress-bar .progress {
-    margin-bottom: 0;
-}
-.common-progress-bar .progress .progress-bar {
-    transition: width var(--speed-fast-progress-bar) ease,
-    background-color var(--speed-fast-progress-bar) ease;
-}
-.common-progress-bar .progress .progress-bar.bg-primary {
-    background-color: var(--blue-medium);
-}
-.common-progress-bar .progress .progress-bar.bg-success {
-    background-color: var(--green-medium);
-}
 
 @media (max-width: 420px) {
     :root {

@@ -61,7 +61,7 @@ var ProgressBarCommon = Backbone.View.extend({
         }
     },
     setValue: function () {
-        this.$progress_bar = this.$el.find('.progress-bar');
+        this.$progress_bar = this.$el.find('.progress .bar');
         this.$minimize = this.$el.find('.minimize');
         this.$close = this.$el.find('.close');
     },
@@ -233,7 +233,7 @@ var ProgressBarCommon = Backbone.View.extend({
         return result;
     },
     intermediateSuccess: function (values) {
-        switch (true) {
+        /*switch (true) {
             case this.type.indexOf('create_pdf') !== -1:
                 let Collection = this.type === 'create_pdf_invoice' ? App.instance.invoices : App.instance.deliveryNotes;
                 _.each(values, document_id => {
@@ -242,7 +242,7 @@ var ProgressBarCommon = Backbone.View.extend({
                         Document.set('hasPdf', true);
                 });
                 break;
-        }
+        }*/
     }
 });
 
@@ -310,9 +310,6 @@ var ProgressBarDurationEstimatedCommon = ProgressBarCommon.extend({
     runApi: function () {
         return this.api();
     },
-    getTitleText: function () {
-        return 'Create Summary Invoice';
-    },
     getProcessName: function () {
         return this.processName;
     },
@@ -320,4 +317,7 @@ var ProgressBarDurationEstimatedCommon = ProgressBarCommon.extend({
 
 var ProgressBarDurationEstimatedSummaryInvoice = ProgressBarDurationEstimatedCommon.extend({
     processName: 'creating_summary_invoice',
+    getTitleText: function () {
+        return 'Create Summary Invoice';
+    },
 });
