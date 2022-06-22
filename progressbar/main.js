@@ -38,7 +38,7 @@ var ProgressBarCommon = Backbone.View.extend({
         return (this.is_show_one && this.values.length === 1) || this.values.length > 1;
     },
     render: function () {
-        if(this.isShownPanelOneValue()) {
+        if (this.isShownPanelOneValue()) {
             this.$el.html(this.template());
             this.setValue();
             this.setPopover();
@@ -82,6 +82,7 @@ var ProgressBarCommon = Backbone.View.extend({
     },
     renderDone: function () {
         this.$el.addClass('done');
+        this.$progress_bar.addClass('progress-bar-success');
         let $popover_close = this.$el.find('.close.bnt-header-right .popover');
         $popover_close.css({
             top: '-30px',
@@ -122,7 +123,7 @@ var ProgressBarCommon = Backbone.View.extend({
 
                 this.setTitle(this.error_txt);
                 this.$progress_bar.addClass('progress-bar-danger');
-                setRootCss('--box-shadow', 'var(--red-medium)');
+                this.setRootCss('--box-shadow', 'var(--red-medium)');
 
                 $Dfd.reject();
             }
@@ -207,28 +208,11 @@ var ProgressBarCommon = Backbone.View.extend({
     getApi: function (values) {
         let result;
         switch (true) {
-            /*case this.type.indexOf('create_pdf_delivery_note') !== -1:
-                result = () => App.api.document.pdfs.delivery_note._async_create(values);
-                break;
-            case this.type.indexOf('create_pdf_invoice') !== -1:
-                result = () => App.api.document.pdfs.invoice._async_create(values);
-                break;*/
             case _.isFunction(this.type):
                 result = this.type;
                 break;
             default:
-                result = () => {
-                    let $Dfd = $.Deferred();
-                    let random = _.random(300, 1500);
-                    setTimeout(
-                        () => {
-                            if(random < 1400)
-                                $Dfd.resolve({});
-                            else $Dfd.reject();
-                        }, random
-                    );
-                    return $Dfd.promise();
-                };
+                result = this.getPseudoApi();
         }
         return result;
     },
@@ -245,6 +229,7 @@ var ProgressBarCommon = Backbone.View.extend({
         }*/
     }
 });
+_.extend(ProgressBarCommon.prototype, CommonValues);
 
 var ProgressBarDurationEstimatedCommon = ProgressBarCommon.extend({
     instanceName: 'view ProgressBarDurationEstimatedCommon',

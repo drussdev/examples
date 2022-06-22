@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="progressbar/style.css">
+    <link rel="stylesheet" href="input-number-active/style.css">
 </head>
 <body>
 
@@ -18,6 +20,9 @@
 <script type="text/javascript" src="js/vendor/backbone-min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 
+<script type="text/javascript" src="main.js"></script>
+
+<!--progressbar-->
 <script id="common-progress-bar-tpl" type="text/html">
     <div class="draggable-area"></div>
     <div class="minimize bnt-header-right btn btn-xs"><i class="fa fa-eye"></i></div>
@@ -27,9 +32,33 @@
         <div class="bar progress-bar"></div>
     </div>
 </script>
+<script type="text/javascript" src="progressbar/main.js"></script>
 
-<script type="text/javascript" src="component.js"></script>
-<script type="text/javascript" src="main.js"></script>
+<!--input-number-active-->
+<div class="wrapper-input-example">
+    Examples of numeric input fields. Common: Select text  on focus. Comma as a decimal separator. Saving the value when changing.<br>
+    <label class="flex-center">It is possible to set an empty (nullable) price.</label><div id="InputSellingPriceNumberActive" class="example"></div>
+    <label class="flex-center">It is impossible to set an empty (nullable) price.</label><div id="InputPurchasingPriceNumberActive" class="example"></div>
+    <label class="flex-center">Quantity, three digits after comma.</label><div id="InputQuantityNumberActive" class="example"></div>
+    <label class="flex-center">Quantity, with the ability to change using the buttons.</label><div id="InputQuantityNumberIncreaseDecreaseActive" class="example"></div>
+</div>
+
+<script id="input-number-active" type="text/template">
+    <input type="number" class="<%= class_input %>" value="<%= value %>" lang="de" pattern="[0-9]+([,][0-9])+?" inputmode="decimal">
+</script>
+<!--lang="de" pattern="[0-9]+([,][0-9])+?" inputmode="decimal"-->
+<script id="input-quantity-number-increase-decrease-active" type="text/template">
+    <button type="button" class="btn btn-xs btn-default decrease flex-center">
+        <i class="fa fa-lg fa-minus-circle"></i>
+    </button>
+    <input type="number" class="<%= class_input %>" value="<%= value %>" lang="de" pattern="[0-9]+([,][0-9])+?" inputmode="decimal">
+    <button type="button" class="btn btn-xs btn-default increase flex-center">
+        <i class="fa fa-lg fa-plus-circle"></i>
+    </button>
+</script>
+<script type="text/javascript" src="input-number-active/main.js"></script>
+
+
 
 </body>
 </html>

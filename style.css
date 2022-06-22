@@ -34,91 +34,19 @@
 
     --box-shadow: var(--blue-dark)
 }
-.common-progress-bar-wrapper {
-    position: absolute;
-    width: var(--width-prorgess-bar)!important;
-    bottom: 52px;
-    right: 2px;
-    z-index: 9999;
+
+.flex-center:not(.hidden) {
+    display: flex!important;
+    justify-content: center;
+    align-items: center;
 }
 
-.common-progress-bar {
-    position: relative;
-    width: var(--width-prorgess-bar)!important;
-    height: 66px!important;
-    background-color: white;
-    margin-bottom: 6px;
-    padding: 10px;
-    min-height: 30px;
-    box-shadow: 0 0 2px 2px var(--box-shadow);
-    transition: opacity var(--speed-slow-progress-bar) ease,
-    width var(--speed-fast-progress-bar) ease,
-    height var(--speed-fast-progress-bar) ease,
-    box-shadow var(--speed-fast-progress-bar) ease;
+.wrapper-input-example {
+    padding: 15px;
 }
-.common-progress-bar.done {
-    box-shadow: 0 0 2px 2px var(--green-medium);
-}
-.common-progress-bar .popover .popover-title {
-    font-weight: bold;
-}
-.common-progress-bar.done .popover .popover-title .clarification {
-    display: none;
-}
-.common-progress-bar .popover .popover-title .clarification {
-    font-weight: normal;
-}
-.common-progress-bar .draggable-area {
-    width: 100%;
-    height: 20px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    cursor: grab;
-    z-index: 1;
-}
-.common-progress-bar.mini-size {
-    height: 56px!important;
-}
-.common-progress-bar.mini-size,
-.common-progress-bar.mini-size .draggable-area{
-    width: 80px!important;
-}
-.common-progress-bar .bnt-header-right {
-    width: var(--width-header-btn-prorgess-bar);
-    background-color: inherit;
-    position: absolute;
-    top: 0;
-    z-index: 1;
-    opacity: .5;
-}
-.common-progress-bar .bnt-header-right:hover {
-    background-color: var(--gray-light);
-    opacity: 1;
-}
-.common-progress-bar .bnt-header-right.minimize {
-    right: 25px;
-    padding-bottom: 0;
-}
-.common-progress-bar .bnt-header-right.close {
-    right: 0;
-    font-size: 19px;
-}
-.common-progress-bar .bnt-header-right.close:hover {
-    color: var(--red-medium);
-}
-.common-progress-bar .title {
-    margin-bottom: 5px;
-    height: 20px;
-    overflow: hidden;
-    width: calc(var(--width-prorgess-bar) - var(--width-header-btn-prorgess-bar) * 2);
 
-    transition: height var(--speed-fast-progress-bar) ease,
-    opacity var(--speed-fast-progress-bar) ease;
-}
-.common-progress-bar.mini-size .title {
-    opacity: 0;
-    height: 8px;
+.example {
+    margin-bottom: 15px;
 }
 
 @media (max-width: 420px) {

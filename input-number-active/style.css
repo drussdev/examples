@@ -1,0 +1,48 @@
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { appearance: none;}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+.wrap-input-number-active {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin: auto;
+    width: fit-content;
+}
+.wrap-input-number-active input {
+    text-align: right;
+}
+.wrap-input-number-active > i {
+    position: absolute;
+    left: 5px;
+}
+.wrap-input-number-active.input-quantity-number-increase-decrease-active {
+    display: grid;
+    grid-template-columns: 30px 67px 30px;
+}
+.wrap-input-number-active.input-quantity-number-increase-decrease-active > div,
+.wrap-input-number-active.input-quantity-number-increase-decrease-active > input {
+    height: 30px;
+}
+.wrap-input-number-active.input-quantity-number-increase-decrease-active input {
+    margin: 0 1px;
+}
+.wrap-input-number-active.input-quantity-number-increase-decrease-active i.fa-spinner {
+    grid-column-start: 2;
+}
+.wrap-input-number-active.input-quantity-number-increase-decrease-active button {
+    height: 30px;
+}
+@media (max-width: 575px) {
+    .wrap-input-number-active.input-quantity-number-increase-decrease-active {
+        grid-template-columns: 24px 67px 24px;
+    }
+    .wrap-input-number-active.input-quantity-number-increase-decrease-active > button,
+    .wrap-input-number-active.input-quantity-number-increase-decrease-active > input {
+        height: 24px;
+    }
+    .wrap-input-number-active.input-quantity-number-increase-decrease-active > button {
+        width: 24px;
+    }
+}
