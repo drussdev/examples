@@ -76,12 +76,12 @@
     top: 0;
     cursor: grab;
     z-index: 1;
+    background-color: var(--gray-medium);
 }
 .common-progress-bar.mini-size {
     height: 56px!important;
 }
-.common-progress-bar.mini-size,
-.common-progress-bar.mini-size .draggable-area{
+.common-progress-bar.mini-size {
     width: 80px!important;
 }
 .common-progress-bar .bnt-header-right {
@@ -96,9 +96,12 @@
     background-color: var(--gray-light);
     opacity: 1;
 }
+.common-progress-bar .bnt-header-right.btn {
+    height: 20px;
+    background-color: var(--gray-medium);
+}
 .common-progress-bar .bnt-header-right.minimize {
     right: 25px;
-    padding-bottom: 0;
 }
 .common-progress-bar .bnt-header-right.close {
     right: 0;
@@ -108,7 +111,7 @@
     color: var(--red-medium);
 }
 .common-progress-bar .title {
-    margin-bottom: 5px;
+    margin-top: 8px;
     height: 20px;
     overflow: hidden;
     width: calc(var(--width-prorgess-bar) - var(--width-header-btn-prorgess-bar) * 2);

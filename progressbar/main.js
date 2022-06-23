@@ -1,21 +1,24 @@
-var ProgressBarCommon = Backbone.View.extend({
+var ProgressBarMultiplyRequests = Backbone.View.extend({
     instanceName: 'view ProgressBarCommon',
     className: 'common-progress-bar',
+    title: 'Some title',
     template: _.template($('#common-progress-bar-tpl').html()),
     error_txt: 'Sometimes shit is happens!',
+    done_text: 'Done',
     close_view_timeout: 2000,
     events: {
         'click .minimize': 'changeViewSize',
         'click .close': 'closeView'
     },
-    initialize: function (values = [], type = '', is_show_one = false) {
+    initialize: function (values = [], api = '', is_show_one = false) {
         this.values = _.isArray(values) ? values : [];
-        this.type = _.isString(type) ? type : '';
+        this.api = (_.isFunction(api)) ? api : this.getApi(values);
         this.progress = 0;
         this.is_show_one = is_show_one;
 
         this.$progress_bar = $();
         this.$minimize = $();
+        this.$title = $();
 
         this.event = {
             onDone: () => {
@@ -42,7 +45,7 @@ var ProgressBarCommon = Backbone.View.extend({
             this.$el.html(this.template());
             this.setValue();
             this.setPopover();
-            this.setTitle();
+            this.setTitleText();
 
             this.$getWrapper().append(this.$el);
 
@@ -54,14 +57,12 @@ var ProgressBarCommon = Backbone.View.extend({
         }
     },
     changeViewSize: function () {
-        if (this.$el.hasClass('mini-size')) {
-            this.$el.removeClass('mini-size');
-        } else {
-            this.$el.addClass('mini-size');
-        }
+        this.$el.toggleClass('mini-size');
+        this.$title.find('span').toggleClass('hidden', this.$el.hasClass('mini-size'))
     },
     setValue: function () {
         this.$progress_bar = this.$el.find('.progress .bar');
+        this.$title = this.$el.find('.title');
         this.$minimize = this.$el.find('.minimize');
         this.$close = this.$el.find('.close');
     },
@@ -97,21 +98,13 @@ var ProgressBarCommon = Backbone.View.extend({
         }, this.close_view_timeout);
     },
     getDoneTxt: function () {
-        let result;
-        switch (true) {
-            case this.type.indexOf('_download') !== -1:
-                result = 'File upload has started';
-                break;
-            default:
-                result = 'Done!';
-        }
-        return result;
+        return this.done_text;
     },
     start: function () {
         let $Dfd = $.Deferred();
         this.progress_function().then(
             (resp) => {
-                this.setTitle(this.getDoneTxt());
+                this.setTitleText(this.getDoneTxt());
                 this.$progress_bar.addClass('bg-success');
 
                 this.setDone(resp);
@@ -121,7 +114,7 @@ var ProgressBarCommon = Backbone.View.extend({
             () => {
                 this.event.onDone();
 
-                this.setTitle(this.error_txt);
+                this.setTitleText(this.error_txt);
                 this.$progress_bar.addClass('progress-bar-danger');
                 this.setRootCss('--box-shadow', 'var(--red-medium)');
 
@@ -139,20 +132,12 @@ var ProgressBarCommon = Backbone.View.extend({
             this.closeView();
         }, 2000);
     },
-    setTitle: function (text = '') {
+    setTitleText: function (text = '') {
         text = _.isEmpty(text) ? this.getTitleText() : text;
-        this.$el.find('.title').text(text);
+        this.$el.find('.title span').text(text);
     },
     getTitleText: function () {
-        let result = '';
-        switch (true) {
-            case this.type.indexOf('create_pdf') !== -1:
-                result = 'Creation of PDF files on the server';
-                break;
-            default:
-                result = 'Some title';
-        }
-        return result;
+        return this.title;
     },
     getChunkCount: function () {
         return 5;
@@ -205,37 +190,19 @@ var ProgressBarCommon = Backbone.View.extend({
     renderProgress: function () {
         this.$progress_bar.css({width: (this.progress * 100) + '%'});
     },
-    getApi: function (values) {
-        let result;
-        switch (true) {
-            case _.isFunction(this.type):
-                result = this.type;
-                break;
-            default:
-                result = this.getPseudoApi();
-        }
-        return result;
+    getApi: function () {
+        return this.api;
     },
     intermediateSuccess: function (values) {
-        /*switch (true) {
-            case this.type.indexOf('create_pdf') !== -1:
-                let Collection = this.type === 'create_pdf_invoice' ? App.instance.invoices : App.instance.deliveryNotes;
-                _.each(values, document_id => {
-                    let Document = Collection.get(document_id);
-                    if (Document !== undefined)
-                        Document.set('hasPdf', true);
-                });
-                break;
-        }*/
     }
 });
-_.extend(ProgressBarCommon.prototype, CommonValues);
+_.extend(ProgressBarMultiplyRequests.prototype, CommonValues);
 
-var ProgressBarDurationEstimatedCommon = ProgressBarCommon.extend({
+var ProgressBarDurationEstimated = ProgressBarMultiplyRequests.extend({
     instanceName: 'view ProgressBarDurationEstimatedCommon',
     processName: 'creating_something',
     initialize: function (data_estimate, api) {
-        ProgressBarCommon.prototype.initialize.apply(this, arguments);
+        ProgressBarMultiplyRequests.prototype.initialize.apply(this, arguments);
 
         this.count = parseInt(data_estimate.count);
         this.dependencies = parseInt(data_estimate.dependencies);
@@ -258,11 +225,12 @@ var ProgressBarDurationEstimatedCommon = ProgressBarCommon.extend({
             let iterate = 0;
             let recursiveFoo = () => {
                 if (++iterate < values.length)
-                    this.timeout_id = setTimeout(
-                        () => {
-                            recursiveFoo();
-                        }, (this.count * this.duration_estimate / (this.dependencies * values.length))
-                    )
+                    this.timeout_id =
+                        setTimeout(
+                            () => {
+                                recursiveFoo();
+                            }, (this.count * this.duration_estimate / (this.dependencies * values.length))
+                        );
                 renderCap();
                 this.renderProgress();
                 this.progress = iterate / values.length;
@@ -290,19 +258,12 @@ var ProgressBarDurationEstimatedCommon = ProgressBarCommon.extend({
     },
     saveDurationData: function (duration) {
         if (Math.abs(this.duration_estimate - (duration * this.dependencies / this.count)) > 500)
-            App.api.duration_process.save(duration, this.count, this.getProcessName());
+            console.log('sent to backend: new duration ' + duration + 'ms, count: ' + this.count + ', process_name: ' + this.getProcessName());
     },
     runApi: function () {
         return this.api();
     },
     getProcessName: function () {
         return this.processName;
-    },
-});
-
-var ProgressBarDurationEstimatedSummaryInvoice = ProgressBarDurationEstimatedCommon.extend({
-    processName: 'creating_summary_invoice',
-    getTitleText: function () {
-        return 'Create Summary Invoice';
     },
 });

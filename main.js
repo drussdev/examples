@@ -59,15 +59,28 @@ var CommonValues = {
             );
             return $Dfd.promise();
         }
-
     }
 };
 
 
 $(function () {
-    App.ProgressBar = new ProgressBarCommon(_.range(100), '');
+    App.ProgressBar = new ProgressBarMultiplyRequests(_.range(100), CommonValues.getPseudoApi());
     App.ProgressBar.render();
     App.ProgressBar.start();
+
+    let api = () => {
+        let $Dfd = $.Deferred();
+        let random = _.random(3000, 10000);
+        setTimeout(
+            () => {
+                $Dfd.resolve();
+            }, random
+        );
+        return $Dfd.promise();
+    }
+    App.ProgressBarDurationEstimated = new ProgressBarDurationEstimated({count: _.random(10, 50), dependencies: _.random(10, 50), duration: _.random(3000, 10000)}, api);
+    App.ProgressBarDurationEstimated.render();
+    App.ProgressBarDurationEstimated.start();
 
     let $inputs_el = $('#InputSellingPriceNumberActive');
     let View = new InputSellingPriceNumberActive('');
